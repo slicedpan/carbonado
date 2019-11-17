@@ -2,7 +2,7 @@
 
 Carbonado is a gem that allows you to require installed gems, even if they are not specified in your Gemfile. This means that you can optionally include other gems if they are already installed, even if your gem just provides an executable. 
 
-Carbonado is named after an impure form of diamond, as it is an impure way to load gems at runtime.
+Carbonado is named after an impure form of diamond, as it is an impure way to load gems at runtime. [wiki](https://en.wikipedia.org/wiki/Carbonado)
 
 ## Installation
 
