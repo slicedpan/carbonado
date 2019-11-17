@@ -41,6 +41,19 @@ You can either include the `Carbonado` module, or alternatively call the methods
       end
     end
 
+The `stub_gem_method` method overrides the `Kernel#gem` method to be a no-op. This is useful when a gem uses the `Kernel#gem` method to activate a gem at runtime. This works fine if the gem is installed using Bundler, but if you are activating it with Carbonado, then this will fail. The only common use case for this is if you are using ActiveRecord, and are manually activating one of the SQL gems at runtime using Carbonado. For example:
+
+    Carbonado.activate_gem("sqlite3", "~> 0.1.14")
+    # This will fail
+    ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => "foo.sqlite")
+
+    # Use stub_gem_method to make Kernel#gem a no-op
+    Carbonado.stub_gem_method do
+      ActiveRecord::Base.establish_connection(:adapter => "sqlite3", :database => "foo.sqlite")
+    end
+
+This does mean that you will need to take responsibility for ensuring version compatibility between the SQL gem and ActiveRecord.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
